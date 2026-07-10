@@ -1,0 +1,51 @@
+@model AdminLogsViewModel
+@{
+    ViewData["Title"] = "Logs";
+}
+
+<div class="page-header"><h2>Admin Panel</h2></div>
+<partial name="_AdminNav" />
+
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item"><a class="nav-link @(Model.ActiveTab == "System" ? "active" : "")" asp-action="Index" asp-route-tab="System">System Logs</a></li>
+    <li class="nav-item"><a class="nav-link @(Model.ActiveTab == "Email" ? "active" : "")" asp-action="Index" asp-route-tab="Email">Email Logs (Simulated)</a></li>
+</ul>
+
+<div class="card">
+    <div class="card-body p-0">
+        @if (Model.ActiveTab == "Email")
+        {
+            <table class="table mb-0">
+                <thead><tr><th>To</th><th>Subject</th><th>Type</th><th>Sent At</th></tr></thead>
+                <tbody>
+                    @foreach (var log in Model.EmailLogs.Items)
+                    {
+                        <tr>
+                            <td>@log.ToEmail</td><td>@log.Subject</td><td><span class="badge bg-secondary">@log.EmailType</span></td>
+                            <td>@log.SentAt.ToString("MMM dd, yyyy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table mb-0">
+                <thead><tr><th>Level</th><th>Message</th><th>Source</th><th>Time</th></tr></thead>
+                <tbody>
+                    @foreach (var log in Model.SystemLogs.Items)
+                    {
+                        <tr>
+                            <td>
+                                <span class="badge @(log.Level == "Error" ? "bg-danger" : log.Level == "Warning" ? "bg-warning text-dark" : "bg-info text-dark")">@log.Level</span>
+                            </td>
+                            <td>@log.Message</td>
+                            <td class="text-muted small">@log.Source</td>
+                            <td>@log.CreatedAt.ToString("MMM dd, yyyy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

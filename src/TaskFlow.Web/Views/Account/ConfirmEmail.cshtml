@@ -1,0 +1,21 @@
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Email Confirmation";
+    bool success = ViewBag.Success;
+}
+
+<div class="text-center">
+    @if (success)
+    {
+        <i class="fa-solid fa-circle-check text-success" style="font-size: 3rem;"></i>
+        <h3 class="auth-title mt-3">Email confirmed!</h3>
+        <p class="auth-subtitle">Your account is ready. You can now log in.</p>
+    }
+    else
+    {
+        <i class="fa-solid fa-circle-xmark text-danger" style="font-size: 3rem;"></i>
+        <h3 class="auth-title mt-3">Confirmation failed</h3>
+        <p class="auth-subtitle">This link may be invalid or expired.</p>
+    }
+    <a asp-controller="Account" asp-action="Login" class="btn btn-primary mt-3">Go to Login</a>
+</div>

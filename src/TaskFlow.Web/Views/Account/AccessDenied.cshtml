@@ -1,0 +1,11 @@
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="text-center">
+    <i class="fa-solid fa-lock text-danger" style="font-size: 3rem;"></i>
+    <h3 class="auth-title mt-3">Access Denied</h3>
+    <p class="auth-subtitle">You don't have permission to view this page.</p>
+    <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary mt-3">Back to Dashboard</a>
+</div>

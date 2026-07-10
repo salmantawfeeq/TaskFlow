@@ -1,0 +1,43 @@
+@model InviteUserViewModel
+@{
+    ViewData["Title"] = "Invite User";
+}
+
+<div class="page-header"><h2>Invite User</h2></div>
+
+<div class="card" style="max-width: 500px;">
+    <div class="card-body">
+        <form asp-action="Invite" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="colleague@company.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="TeamId" class="form-label"></label>
+                <select asp-for="TeamId" class="form-select">
+                    <option value="">-- No team --</option>
+                    @foreach (var team in Model.Teams)
+                    {
+                        <option value="@team.Id">@team.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="demo-hint mb-3">
+                This sends a simulated email (logged, not actually delivered) with an invitation code.
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Invitation</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

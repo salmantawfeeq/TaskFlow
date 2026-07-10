@@ -1,0 +1,153 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    var stats = (DashboardStatsDto)ViewBag.Stats;
+    var projectProgress = (IReadOnlyList<ProjectProgressDto>)ViewBag.ProjectProgress;
+    var recentActivity = (IReadOnlyList<RecentActivityDto>)ViewBag.RecentActivity;
+}
+
+<div class="page-header">
+    <h2>Dashboard</h2>
+    <a asp-controller="Projects" asp-action="Create" class="btn btn-primary">
+        <i class="fa-solid fa-plus me-1"></i> New Project
+    </a>
+</div>
+
+<!-- Stat Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#4f46e5;"><i class="fa-solid fa-folder-open"></i></div>
+            <div>
+                <div class="stat-value">@stats.ActiveProjects</div>
+                <div class="stat-label">Active Projects</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#10b981;"><i class="fa-solid fa-list-check"></i></div>
+            <div>
+                <div class="stat-value">@stats.CompletedTasks / @stats.TotalTasks</div>
+                <div class="stat-label">Tasks Completed</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div>
+                <div class="stat-value">@stats.OverdueTasks</div>
+                <div class="stat-label">Overdue Tasks</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#f59e0b;"><i class="fa-solid fa-user-check"></i></div>
+            <div>
+                <div class="stat-value">@stats.TasksAssignedToMe</div>
+                <div class="stat-label">Assigned To Me</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <!-- Task Status Chart -->
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="mb-3">Task Status Overview</h6>
+                <canvas id="taskStatusChart" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Priority Chart -->
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="mb-3">Tasks by Priority</h6>
+                <canvas id="taskPriorityChart" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Trend -->
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="mb-3">Completion Trend (14 days)</h6>
+                <canvas id="completionTrendChart" height="220"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <!-- Project Progress -->
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="mb-3">Project Progress</h6>
+                @if (!projectProgress.Any())
+                {
+                    <p class="text-muted small mb-0">No active projects yet.</p>
+                }
+                else
+                {
+                    foreach (var p in projectProgress)
+                    {
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between small mb-1">
+                                <span>
+                                    <span class="rounded-circle d-inline-block me-1" style="width:8px;height:8px;background:@p.ColorHex"></span>
+                                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@p.ProjectId" class="text-decoration-none">@p.ProjectName</a>
+                                </span>
+                                <span class="text-muted">@p.CompletedTasks/@p.TotalTasks tasks</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" style="width: @p.ProgressPercentage%; background-color: @p.ColorHex;"></div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-body">
+                <h6 class="mb-3">Recent Activity</h6>
+                @if (!recentActivity.Any())
+                {
+                    <p class="text-muted small mb-0">No recent activity.</p>
+                }
+                else
+                {
+                    <ul class="list-unstyled mb-0">
+                        @foreach (var a in recentActivity)
+                        {
+                            <li class="d-flex gap-2 mb-3">
+                                <span class="avatar-circle" style="width:32px;height:32px;font-size:0.8rem;flex-shrink:0;">
+                                    @(a.UserFullName.Length > 0 ? a.UserFullName.Substring(0, 1) : "?")
+                                </span>
+                                <div>
+                                    <div class="small"><strong>@a.UserFullName</strong> @a.Description</div>
+                                    <div class="text-muted" style="font-size: 0.75rem;">@a.CreatedAt.ToString("MMM dd, HH:mm")</div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+}

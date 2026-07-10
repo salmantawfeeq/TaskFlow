@@ -1,0 +1,61 @@
+@model TaskFormViewModel
+
+<input type="hidden" asp-for="ProjectId" />
+
+<div class="mb-3">
+    <label asp-for="Title" class="form-label"></label>
+    <input asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="text-danger small"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Description" class="form-label"></label>
+    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <label asp-for="Priority" class="form-label"></label>
+        <select asp-for="Priority" class="form-select">
+            @foreach (var p in Enum.GetValues<TaskFlow.Domain.Enums.TaskPriority>())
+            {
+                <option value="@p">@p</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="StartDate" class="form-label"></label>
+        <input asp-for="StartDate" class="form-control" />
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="DueDate" class="form-label"></label>
+        <input asp-for="DueDate" class="form-control" />
+    </div>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Assignees</label>
+    <select name="AssigneeUserIds" class="form-select" multiple size="5">
+        @foreach (var user in Model.Users)
+        {
+            <option value="@user.Id">@user.Name</option>
+        }
+    </select>
+    <div class="form-text">Hold Ctrl/Cmd to select multiple assignees.</div>
+</div>
+
+@if (Model.Labels.Any())
+{
+    <div class="mb-3">
+        <label class="form-label">Labels</label>
+        <select name="LabelIds" class="form-select" multiple size="3">
+            @foreach (var label in Model.Labels)
+            {
+                <option value="@label.Id">@label.Name</option>
+            }
+        </select>
+    </div>
+}
+
+<button type="submit" class="btn btn-primary">@(Model.Id > 0 ? "Save Changes" : "Create Task")</button>
+<a asp-action="Kanban" asp-route-projectId="@Model.ProjectId" class="btn btn-outline-secondary">Cancel</a>

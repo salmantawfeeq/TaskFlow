@@ -1,0 +1,17 @@
+<ul class="nav nav-pills mb-4">
+    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a></li>
+    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Categories" asp-action="Index">Categories</a></li>
+    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Settings" asp-action="Index">Settings</a></li>
+    <li class="nav-item"><a class="nav-link" asp-area="Admin" asp-controller="Logs" asp-action="Index">Logs</a></li>
+</ul>
+<script>
+    // Highlight the current admin tab based on the active controller.
+    (function () {
+        var current = window.location.pathname.toLowerCase();
+        document.querySelectorAll('.nav-pills .nav-link').forEach(function (link) {
+            if (current.indexOf(link.getAttribute('href').toLowerCase()) === 0) {
+                link.classList.add('active');
+            }
+        });
+    })();
+</script>

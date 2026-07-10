@@ -1,0 +1,56 @@
+@model PagedResult<TaskItemDto>
+@{
+    ViewData["Title"] = "My Tasks";
+}
+
+<div class="page-header">
+    <h2>My Tasks</h2>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table mb-0 align-middle">
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Project</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Due Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Items.Any())
+                {
+                    <tr><td colspan="5" class="text-center text-muted py-4">No tasks assigned to you.</td></tr>
+                }
+                @foreach (var task in Model.Items)
+                {
+                    <tr>
+                        <td><a asp-controller="Tasks" asp-action="Details" asp-route-id="@task.Id" class="text-decoration-none">@task.Title</a></td>
+                        <td><span class="badge" style="background-color:@task.ProjectColorHex;">@task.ProjectName</span></td>
+                        <td><span class="priority-badge priority-@task.Priority.ToString().ToLower()">@task.Priority</span></td>
+                        <td>@task.Status</td>
+                        <td class="@(task.IsOverdue ? "text-danger fw-semibold" : "")">
+                            @(task.DueDate?.ToString("MMM dd, yyyy") ?? "-")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            @for (var i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                    <a class="page-link" asp-action="MyTasks" asp-route-PageNumber="@i">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

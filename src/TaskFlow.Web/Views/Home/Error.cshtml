@@ -1,0 +1,28 @@
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Error";
+    int statusCode = ViewBag.StatusCode ?? 500;
+}
+
+<div class="text-center">
+    <i class="fa-solid fa-triangle-exclamation text-warning" style="font-size: 3rem;"></i>
+    <h3 class="auth-title mt-3">
+        @(statusCode switch
+        {
+            404 => "Page Not Found",
+            400 => "Bad Request",
+            403 => "Forbidden",
+            _ => "Something Went Wrong"
+        })
+    </h3>
+    <p class="auth-subtitle">
+        @(statusCode switch
+        {
+            404 => "The page you're looking for doesn't exist.",
+            400 => "Your request could not be processed.",
+            403 => "You don't have permission to perform this action.",
+            _ => "An unexpected error occurred. Our team has been notified."
+        })
+    </p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">Go Home</a>
+</div>

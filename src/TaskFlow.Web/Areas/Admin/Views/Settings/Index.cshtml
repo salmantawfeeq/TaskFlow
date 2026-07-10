@@ -1,0 +1,36 @@
+@model AdminSettingsViewModel
+@{
+    ViewData["Title"] = "System Settings";
+}
+
+<div class="page-header"><h2>Admin Panel</h2></div>
+<partial name="_AdminNav" />
+
+@foreach (var group in Model.Settings.GroupBy(s => s.Category))
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h6 class="mb-3">@group.Key</h6>
+            @foreach (var setting in group)
+            {
+                <form asp-action="Update" method="post" class="row g-2 align-items-center mb-2">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="key" value="@setting.Key" />
+                    <div class="col-md-4">
+                        <label class="form-label small mb-0">@setting.Key</label>
+                        @if (!string.IsNullOrEmpty(setting.Description))
+                        {
+                            <div class="text-muted" style="font-size:0.75rem;">@setting.Description</div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="value" value="@setting.Value" class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-sm btn-outline-primary w-100">Save</button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+}

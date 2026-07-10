@@ -1,0 +1,76 @@
+@model ProjectDetailDto
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="page-header">
+    <div>
+        <h2>@Model.Name</h2>
+        <span class="badge" style="background-color:@Model.ColorHex;">@Model.Status</span>
+        @if (Model.IsArchived) { <span class="badge bg-secondary">Archived</span> }
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-controller="Tasks" asp-action="Kanban" asp-route-projectId="@Model.Id" class="btn btn-primary">
+            <i class="fa-solid fa-table-columns me-1"></i> Kanban Board
+        </a>
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary"><i class="fa-solid fa-pen"></i></a>
+            <form asp-action="ToggleArchive" asp-route-id="@Model.Id" asp-route-archive="@(!Model.IsArchived)" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-secondary">
+                    <i class="fa-solid @(Model.IsArchived ? "fa-box-open" : "fa-box-archive")"></i>
+                </button>
+            </form>
+        }
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-8">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h6>Description</h6>
+                <p class="text-muted">@(Model.Description ?? "No description provided.")</p>
+
+                <div class="row small text-muted">
+                    <div class="col-6"><strong>Owner:</strong> @Model.OwnerName</div>
+                    <div class="col-6"><strong>Category:</strong> @(Model.CategoryName ?? "-")</div>
+                    <div class="col-6 mt-2"><strong>Team:</strong> @(Model.TeamName ?? "-")</div>
+                    <div class="col-6 mt-2"><strong>Timeline:</strong> @Model.StartDate.ToString("MMM dd, yyyy") - @(Model.EndDate?.ToString("MMM dd, yyyy") ?? "Ongoing")</div>
+                </div>
+
+                <div class="progress mt-3" style="height: 8px;">
+                    <div class="progress-bar" style="width:@Model.ProgressPercentage%; background-color:@Model.ColorHex;"></div>
+                </div>
+                <div class="small text-muted mt-1">@Model.CompletedTasks of @Model.TotalTasks tasks completed (@Model.ProgressPercentage%)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="mb-3">Members (@Model.Members.Count)</h6>
+                <ul class="list-unstyled mb-0">
+                    @foreach (var member in Model.Members)
+                    {
+                        <li class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="d-flex align-items-center gap-2">
+                                <span class="avatar-circle" style="width:30px;height:30px;font-size:0.75rem;">@member.FullName.Substring(0, 1)</span>
+                                <span class="small">@member.FullName @(member.IsProjectManager ? "(Manager)" : "")</span>
+                            </span>
+                            @if ((User.IsInRole("Admin") || User.IsInRole("Manager")))
+                            {
+                                <form asp-action="RemoveMember" asp-route-projectId="@Model.Id" asp-route-userId="@member.UserId" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-link text-danger p-0"><i class="fa-solid fa-xmark"></i></button>
+                                </form>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

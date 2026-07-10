@@ -1,0 +1,50 @@
+@model IReadOnlyList<NotificationDto>
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="page-header">
+    <h2>Notifications</h2>
+    <form id="markAllReadForm">
+        <button type="submit" class="btn btn-outline-secondary btn-sm">Mark all as read</button>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        @if (!Model.Any())
+        {
+            <div class="text-center text-muted py-5">You have no notifications.</div>
+        }
+        else
+        {
+            <ul class="list-group list-group-flush">
+                @foreach (var n in Model)
+                {
+                    <li class="list-group-item @(n.IsRead ? "" : "bg-opacity-10 bg-primary")">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>@n.Title</strong>
+                                <p class="mb-1 text-muted small">@n.Message</p>
+                            </div>
+                            <span class="text-muted small text-nowrap ms-3">@n.CreatedAt.ToString("MMM dd, HH:mm")</span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(n.LinkUrl))
+                        {
+                            <a href="@n.LinkUrl" class="small">View details &rarr;</a>
+                        }
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('markAllReadForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            window.postJson('/Notifications/MarkAllRead').then(function () { window.location.reload(); });
+        });
+    </script>
+}

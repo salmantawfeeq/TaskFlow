@@ -1,0 +1,430 @@
+/* ==========================================================================
+   TaskFlow - Main Stylesheet
+   Theming strategy: CSS custom properties switched via the
+   [data-bs-theme] attribute on <html>, toggled by site.js. Bootstrap 5.3's
+   own data-bs-theme="dark" handles component-level colors; the variables
+   below extend that for our custom app-shell/sidebar/card components.
+   ========================================================================== */
+
+:root {
+    --tf-sidebar-width: 260px;
+    --tf-bg: #f5f7fb;
+    --tf-surface: #ffffff;
+    --tf-border: #e5e9f0;
+    --tf-text: #1f2937;
+    --tf-text-muted: #6b7280;
+    --tf-primary: #4f46e5;
+    --tf-primary-hover: #4338ca;
+    --tf-sidebar-bg: #111827;
+    --tf-sidebar-text: #cbd5e1;
+    --tf-sidebar-active: #4f46e5;
+    --tf-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+[data-bs-theme="dark"] {
+    --tf-bg: #0f1420;
+    --tf-surface: #171d2b;
+    --tf-border: #2a3245;
+    --tf-text: #e5e7eb;
+    --tf-text-muted: #9ca3af;
+    --tf-sidebar-bg: #0a0e17;
+    --tf-sidebar-text: #94a3b8;
+    --tf-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+body {
+    background-color: var(--tf-bg);
+    color: var(--tf-text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ---- App shell layout ---- */
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: var(--tf-sidebar-width);
+    background: var(--tf-sidebar-bg);
+    color: var(--tf-sidebar-text);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    transition: transform 0.25s ease;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.25rem 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.sidebar-brand i {
+    color: var(--tf-primary);
+}
+
+.sidebar-nav {
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 1.5rem;
+    color: var(--tf-sidebar-text);
+    text-decoration: none;
+    font-size: 0.925rem;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-nav a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.sidebar-nav a.active {
+    background: rgba(79, 70, 229, 0.15);
+    color: #fff;
+    border-left-color: var(--tf-primary);
+}
+
+.main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.topbar {
+    background: var(--tf-surface);
+    border-bottom: 1px solid var(--tf-border);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.topbar-search {
+    position: relative;
+    flex: 1;
+    max-width: 320px;
+}
+
+.topbar-search i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--tf-text-muted);
+    font-size: 0.85rem;
+}
+
+.topbar-search input {
+    padding-left: 32px;
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+.btn-icon {
+    background: transparent;
+    border: none;
+    color: var(--tf-text);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease;
+}
+
+.btn-icon:hover {
+    background: var(--tf-bg);
+}
+
+.avatar-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--tf-primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.page-content {
+    padding: 1.75rem;
+    flex: 1;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header h2 {
+    font-weight: 700;
+    margin: 0;
+}
+
+/* ---- Cards ---- */
+.card {
+    background: var(--tf-surface);
+    border: 1px solid var(--tf-border);
+    border-radius: 0.75rem;
+    box-shadow: var(--tf-shadow);
+}
+
+.stat-card {
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    background: var(--tf-surface);
+    border: 1px solid var(--tf-border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.15s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat-label {
+    color: var(--tf-text-muted);
+    font-size: 0.85rem;
+}
+
+/* ---- Kanban board ---- */
+.kanban-board {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+.kanban-column {
+    background: var(--tf-bg);
+    border-radius: 0.75rem;
+    min-width: 290px;
+    max-width: 290px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 220px);
+}
+
+.kanban-column-header {
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--tf-border);
+}
+
+.kanban-column-body {
+    padding: 0.75rem;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 100px;
+}
+
+.kanban-card {
+    background: var(--tf-surface);
+    border: 1px solid var(--tf-border);
+    border-radius: 0.6rem;
+    padding: 0.85rem;
+    margin-bottom: 0.75rem;
+    cursor: grab;
+    transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.kanban-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.kanban-card.dragging {
+    opacity: 0.5;
+    transform: scale(0.98);
+}
+
+.kanban-card-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.priority-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.3rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.priority-low { background: #dcfce7; color: #166534; }
+.priority-medium { background: #fef9c3; color: #854d0e; }
+.priority-high { background: #fed7aa; color: #9a3412; }
+.priority-critical { background: #fecaca; color: #991b1b; }
+
+/* ---- Notification panel ---- */
+.notification-count {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 0.6rem;
+    min-width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.notification-panel {
+    width: 340px;
+    padding: 0;
+}
+
+.notification-header {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--tf-border);
+}
+
+.notification-list {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--tf-border);
+    font-size: 0.85rem;
+}
+
+.notification-item.unread {
+    background: rgba(79, 70, 229, 0.06);
+}
+
+/* ---- Auth pages ---- */
+.auth-body {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.auth-wrapper {
+    width: 100%;
+    max-width: 440px;
+}
+
+.auth-brand {
+    text-align: center;
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.auth-brand i {
+    margin-right: 0.5rem;
+}
+
+.auth-card {
+    background: var(--tf-surface);
+    border-radius: 1rem;
+    padding: 2.25rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.auth-title {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+    color: var(--tf-text-muted);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.demo-hint {
+    background: var(--tf-bg);
+    border: 1px dashed var(--tf-border);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    color: var(--tf-text-muted);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 991.98px) {
+    .sidebar {
+        position: fixed;
+        z-index: 1050;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+}
+
+/* ---- Fade-in animation for page content ---- */
+.page-content {
+    animation: tf-fade-in 0.25s ease;
+}
+
+@keyframes tf-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}

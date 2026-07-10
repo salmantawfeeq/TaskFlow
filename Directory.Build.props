@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <Authors>TaskFlow Engineering Team</Authors>
+    <Company>TaskFlow</Company>
+    <Product>TaskFlow - Enterprise Task Management System</Product>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,44 @@
+@model TeamDetailDto
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="page-header">
+    <div>
+        <h2>@Model.Name</h2>
+        <span class="text-muted">@Model.DepartmentName &middot; Led by @Model.TeamLeadName</span>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h6 class="mb-3">Members (@Model.Members.Count)</h6>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead><tr><th>Name</th><th>Job Title</th><th>Joined</th><th></th></tr></thead>
+                <tbody>
+                    @foreach (var member in Model.Members)
+                    {
+                        <tr>
+                            <td>
+                                <span class="avatar-circle me-2" style="width:28px;height:28px;font-size:0.7rem;">@member.FullName.Substring(0, 1)</span>
+                                @member.FullName @(member.IsTeamLead ? "(Lead)" : "")
+                            </td>
+                            <td>@member.JobTitle</td>
+                            <td>@member.JoinedAt.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                @if ((User.IsInRole("Admin") || User.IsInRole("Manager")) && !member.IsTeamLead)
+                                {
+                                    <form asp-action="RemoveMember" asp-route-teamId="@Model.Id" asp-route-userId="@member.UserId" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-link text-danger p-0">Remove</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

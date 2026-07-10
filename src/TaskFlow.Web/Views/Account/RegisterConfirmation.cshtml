@@ -1,0 +1,22 @@
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Check Your Email";
+}
+
+<div class="text-center">
+    <i class="fa-solid fa-envelope-circle-check text-success" style="font-size: 3rem;"></i>
+    <h3 class="auth-title mt-3">Confirm your email</h3>
+    <p class="auth-subtitle">We've sent a confirmation link to your email address.</p>
+
+    @if (ViewBag.ConfirmationLink != null)
+    {
+        <div class="demo-hint mt-4 text-start">
+            <strong>Email simulation</strong> — no real email server is configured, so here is the link that would have been sent:
+            <div class="mt-2">
+                <a href="@ViewBag.ConfirmationLink" class="text-break">@ViewBag.ConfirmationLink</a>
+            </div>
+        </div>
+    }
+
+    <a asp-controller="Account" asp-action="Login" class="btn btn-primary mt-4">Go to Login</a>
+</div>

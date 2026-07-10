@@ -1,0 +1,97 @@
+@model ProjectListViewModel
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="page-header">
+    <h2>Projects</h2>
+    @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+    {
+        <a asp-action="Create" class="btn btn-primary"><i class="fa-solid fa-plus me-1"></i> New Project</a>
+    }
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label small">Search</label>
+                <input type="text" name="SearchTerm" value="@Model.Filter.SearchTerm" class="form-control" placeholder="Search projects..." />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small">Status</label>
+                <select name="Status" class="form-select">
+                    <option value="">All Statuses</option>
+                    @foreach (var status in Enum.GetValues<TaskFlow.Domain.Enums.ProjectStatus>())
+                    {
+                        <option value="@status" selected="@(Model.Filter.Status == status)">@status</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small">Category</label>
+                <select name="CategoryId" class="form-select">
+                    <option value="">All Categories</option>
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <option value="@cat.Id" selected="@(Model.Filter.CategoryId == cat.Id)">@cat.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row g-3">
+    @if (!Model.Projects.Items.Any())
+    {
+        <div class="col-12">
+            <div class="card"><div class="card-body text-center text-muted py-5">No projects found.</div></div>
+        </div>
+    }
+    @foreach (var project in Model.Projects.Items)
+    {
+        <div class="col-md-6 col-xl-4">
+            <a asp-action="Details" asp-route-id="@project.Id" class="text-decoration-none text-reset">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge" style="background-color:@project.ColorHex;">@project.Status</span>
+                            @if (project.IsArchived)
+                            {
+                                <span class="badge bg-secondary">Archived</span>
+                            }
+                        </div>
+                        <h5 class="mb-1">@project.Name</h5>
+                        <p class="text-muted small mb-3">@(project.Description?.Length > 90 ? project.Description.Substring(0, 90) + "..." : project.Description)</p>
+
+                        <div class="progress mb-2" style="height: 6px;">
+                            <div class="progress-bar" style="width:@project.ProgressPercentage%; background-color:@project.ColorHex;"></div>
+                        </div>
+                        <div class="d-flex justify-content-between small text-muted">
+                            <span>@project.CompletedTasks/@project.TotalTasks tasks</span>
+                            <span><i class="fa-solid fa-users me-1"></i>@project.MemberCount</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+@if (Model.Projects.TotalPages > 1)
+{
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            @for (var i = 1; i <= Model.Projects.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.Projects.PageNumber ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-PageNumber="@i" asp-route-SearchTerm="@Model.Filter.SearchTerm" asp-route-Status="@Model.Filter.Status">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}

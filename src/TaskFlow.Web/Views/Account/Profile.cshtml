@@ -1,0 +1,92 @@
+@model ProfileViewModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="page-header">
+    <h2>My Profile</h2>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                @{
+                    var initials = $"{Model.FirstName.FirstOrDefault()}{Model.LastName.FirstOrDefault()}".ToUpper();
+                    var placeholderSvg = $"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><rect width='120' height='120' fill='%234f46e5'/><text x='50%25' y='54%25' font-size='42' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif'>{initials}</text></svg>";
+                }
+                <img src="@(string.IsNullOrEmpty(Model.ProfileImagePath) ? placeholderSvg : Model.ProfileImagePath)"
+                     class="rounded-circle mb-3" width="120" height="120" style="object-fit: cover;" alt="Profile picture" />
+
+                <form asp-controller="Account" asp-action="UploadProfileImage" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <input type="file" name="file" class="form-control form-control-sm mb-2" accept=".jpg,.jpeg,.png,.gif" />
+                    <button type="submit" class="btn btn-sm btn-outline-primary w-100">Upload Photo</button>
+                </form>
+
+                <hr />
+
+                <div class="text-start small">
+                    <p class="mb-1"><strong>Roles:</strong></p>
+                    @foreach (var role in Model.Roles)
+                    {
+                        <span class="badge bg-primary me-1">@role</span>
+                    }
+                    <p class="mt-2 mb-0"><strong>Member since:</strong> @Model.CreatedAt.ToString("MMM yyyy")</p>
+                    @if (Model.LastLoginAt.HasValue)
+                    {
+                        <p class="mb-0"><strong>Last login:</strong> @Model.LastLoginAt.Value.ToString("MMM dd, yyyy HH:mm")</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-controller="Account" asp-action="Profile" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input value="@Model.Email" class="form-control" disabled />
+                        <div class="form-text">Contact an administrator to change your email address.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="JobTitle" class="form-label"></label>
+                        <input asp-for="JobTitle" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Bio" class="form-label"></label>
+                        <textarea asp-for="Bio" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-outline-secondary">Change Password</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>TaskFlow.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      Deliberate, minimal exception to "Domain has zero framework dependencies":
+      ApplicationUser extends IdentityUser so this package (identity models only,
+      no EF Core, no ASP.NET Core hosting) is referenced here. No EF Core or
+      ASP.NET Core web packages are added to Domain.
+    -->
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.8" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,97 @@
+@model ReportsIndexViewModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="page-header">
+    <h2>Reports</h2>
+    <div class="d-flex gap-2">
+        <a asp-action="ExportPdf" asp-route-reportType="@Model.ActiveTab" asp-route-StartDate="@Model.Filter.StartDate" asp-route-EndDate="@Model.Filter.EndDate" class="btn btn-outline-danger">
+            <i class="fa-solid fa-file-pdf me-1"></i> Export PDF
+        </a>
+        <a asp-action="ExportExcel" asp-route-reportType="@Model.ActiveTab" asp-route-StartDate="@Model.Filter.StartDate" asp-route-EndDate="@Model.Filter.EndDate" class="btn btn-outline-success">
+            <i class="fa-solid fa-file-excel me-1"></i> Export Excel
+        </a>
+    </div>
+</div>
+
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link @(Model.ActiveTab == "CompletedTasks" ? "active" : "")" asp-action="Index" asp-route-tab="CompletedTasks">Completed Tasks</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(Model.ActiveTab == "Productivity" ? "active" : "")" asp-action="Index" asp-route-tab="Productivity">Productivity</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(Model.ActiveTab == "EmployeePerformance" ? "active" : "")" asp-action="Index" asp-route-tab="EmployeePerformance">Employee Performance</a>
+    </li>
+</ul>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <input type="hidden" name="tab" value="@Model.ActiveTab" />
+            <div class="col-md-3">
+                <label class="form-label small">Start Date</label>
+                <input type="date" name="StartDate" value="@Model.Filter.StartDate.ToString("yyyy-MM-dd")" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small">End Date</label>
+                <input type="date" name="EndDate" value="@Model.Filter.EndDate.ToString("yyyy-MM-dd")" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-outline-primary w-100">Apply Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        @if (Model.ActiveTab == "CompletedTasks")
+        {
+            <table class="table mb-0">
+                <thead><tr><th>Task</th><th>Project</th><th>Completed By</th><th>Completed At</th><th>Priority</th><th>Days to Complete</th></tr></thead>
+                <tbody>
+                    @foreach (var r in Model.CompletedTasks)
+                    {
+                        <tr>
+                            <td>@r.Title</td><td>@r.ProjectName</td><td>@r.CompletedByName</td>
+                            <td>@r.CompletedAt?.ToString("MMM dd, yyyy")</td><td>@r.Priority</td><td>@r.DaysToComplete</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else if (Model.ActiveTab == "Productivity")
+        {
+            <table class="table mb-0">
+                <thead><tr><th>User</th><th>Assigned</th><th>Completed</th><th>Completion Rate</th><th>Avg Days</th><th>Overdue</th></tr></thead>
+                <tbody>
+                    @foreach (var r in Model.Productivity)
+                    {
+                        <tr>
+                            <td>@r.UserFullName</td><td>@r.TasksAssigned</td><td>@r.TasksCompleted</td>
+                            <td>@r.CompletionRate%</td><td>@r.AverageCompletionDays</td><td>@r.OverdueTasks</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table mb-0">
+                <thead><tr><th>Employee</th><th>Department</th><th>Assigned</th><th>On Time</th><th>Late</th><th>Overdue Now</th><th>On-Time Rate</th></tr></thead>
+                <tbody>
+                    @foreach (var r in Model.EmployeePerformance)
+                    {
+                        <tr>
+                            <td>@r.UserFullName</td><td>@r.DepartmentName</td><td>@r.TotalTasksAssigned</td>
+                            <td>@r.TasksCompletedOnTime</td><td>@r.TasksCompletedLate</td><td>@r.TasksOverdueNow</td><td>@r.OnTimeCompletionRate%</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

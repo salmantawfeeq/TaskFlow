@@ -1,0 +1,98 @@
+@model KanbanBoardViewModel
+@{
+    ViewData["Title"] = Model.ProjectName + " - Kanban Board";
+    var columns = new[]
+    {
+        (Status: TaskFlow.Domain.Enums.TaskStatus.ToDo, Label: "To Do", Color: "#94a3b8"),
+        (Status: TaskFlow.Domain.Enums.TaskStatus.InProgress, Label: "In Progress", Color: "#3b82f6"),
+        (Status: TaskFlow.Domain.Enums.TaskStatus.InReview, Label: "In Review", Color: "#f59e0b"),
+        (Status: TaskFlow.Domain.Enums.TaskStatus.Done, Label: "Done", Color: "#10b981"),
+        (Status: TaskFlow.Domain.Enums.TaskStatus.Blocked, Label: "Blocked", Color: "#ef4444")
+    };
+}
+
+<div class="page-header">
+    <div>
+        <h2>@Model.ProjectName</h2>
+        <span class="text-muted small">Kanban Board</span>
+    </div>
+    <a asp-controller="Tasks" asp-action="Create" asp-route-projectId="@Model.ProjectId" class="btn btn-primary">
+        <i class="fa-solid fa-plus me-1"></i> New Task
+    </a>
+</div>
+
+<div class="kanban-board" id="kanbanBoard" data-project-id="@Model.ProjectId">
+    @foreach (var col in columns)
+    {
+        var tasksInColumn = Model.Tasks.Where(t => t.Status == col.Status).OrderBy(t => t.BoardOrder).ToList();
+        <div class="kanban-column" data-status="@col.Status">
+            <div class="kanban-column-header" style="border-bottom-color:@col.Color;">
+                <span>@col.Label</span>
+                <span class="badge bg-secondary">@tasksInColumn.Count</span>
+            </div>
+            <div class="kanban-column-body" data-status="@col.Status">
+                @foreach (var task in tasksInColumn)
+                {
+                    <div class="kanban-card" draggable="true" data-task-id="@task.Id" data-order="@task.BoardOrder">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="priority-badge priority-@task.Priority.ToString().ToLower()">@task.Priority</span>
+                            @if (task.IsOverdue)
+                            {
+                                <span class="text-danger" title="Overdue"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                            }
+                        </div>
+                        <a asp-controller="Tasks" asp-action="Details" asp-route-id="@task.Id" class="kanban-card-title text-decoration-none text-reset d-block">
+                            @task.Title
+                        </a>
+
+                        @if (task.Labels.Any())
+                        {
+                            <div class="mb-2">
+                                @foreach (var label in task.Labels)
+                                {
+                                    <span class="badge" style="background-color:@label.ColorHex; font-size:0.65rem;">@label.Name</span>
+                                }
+                            </div>
+                        }
+
+                        @if (task.ChecklistProgressPercentage > 0)
+                        {
+                            <div class="progress mb-2" style="height: 4px;">
+                                <div class="progress-bar bg-success" style="width:@task.ChecklistProgressPercentage%;"></div>
+                            </div>
+                        }
+
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="d-flex" style="margin-left: -4px;">
+                                @foreach (var assignee in task.Assignees.Take(3))
+                                {
+                                    <span class="avatar-circle" style="width:24px;height:24px;font-size:0.65rem;margin-left:-4px;border:2px solid var(--tf-surface);" title="@assignee.FullName">
+                                        @assignee.FullName.Substring(0, 1)
+                                    </span>
+                                }
+                            </div>
+                            <div class="text-muted small">
+                                @if (task.DueDate.HasValue)
+                                {
+                                    <span class="me-2"><i class="fa-regular fa-calendar"></i> @task.DueDate.Value.ToString("MMM dd")</span>
+                                }
+                                @if (task.CommentCount > 0)
+                                {
+                                    <span class="me-2"><i class="fa-regular fa-comment"></i> @task.CommentCount</span>
+                                }
+                                @if (task.AttachmentCount > 0)
+                                {
+                                    <span><i class="fa-solid fa-paperclip"></i> @task.AttachmentCount</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/kanban.js" asp-append-version="true"></script>
+}

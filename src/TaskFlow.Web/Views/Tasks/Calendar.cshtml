@@ -1,0 +1,27 @@
+@model CalendarViewModel
+@{
+    ViewData["Title"] = "Calendar";
+}
+
+<div class="page-header">
+    <h2>Calendar</h2>
+    <form method="get" class="d-flex gap-2">
+        <select name="projectId" class="form-select form-select-sm" onchange="this.form.submit()">
+            <option value="">All Projects</option>
+            @foreach (var p in Model.Projects)
+            {
+                <option value="@p.Id" selected="@(Model.ProjectId == p.Id)">@p.Name</option>
+            }
+        </select>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div id="calendarGrid" data-tasks='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Tasks.Select(t => new { t.Id, t.Title, t.DueDate, t.ProjectColorHex })))'></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/calendar.js" asp-append-version="true"></script>
+}
