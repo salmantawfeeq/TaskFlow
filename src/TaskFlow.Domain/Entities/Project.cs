@@ -3,11 +3,6 @@ using TaskFlow.Domain.Enums;
 
 namespace TaskFlow.Domain.Entities;
 
-/// <summary>
-/// A Project groups related TaskItems together (similar to a Trello "board"
-/// or a Jira "project"). Supports archiving via the inherited soft-delete
-/// flag rather than hard deletion, so historical data/reports remain intact.
-/// </summary>
 public class Project : AuditableSoftDeleteEntity
 {
     public string Name { get; set; } = string.Empty;
@@ -25,11 +20,6 @@ public class Project : AuditableSoftDeleteEntity
     /// </summary>
     public string ColorHex { get; set; } = "#3B82F6";
 
-    /// <summary>
-    /// Whether the project has been archived by the user (distinct from
-    /// IsDeleted: an archived project is intentionally hidden from active
-    /// views but was never "deleted" - it's a deliberate lifecycle state).
-    /// </summary>
     public bool IsArchived { get; set; } = false;
 
     public int? CategoryId { get; set; }
