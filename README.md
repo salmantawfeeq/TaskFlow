@@ -33,19 +33,20 @@ C#, ASP.NET Core MVC, Entity Framework Core 8, SQL Server, ASP.NET Core Identity
 
 ## Getting Started
 
-Prerequisites: .NET 8 SDK and SQL Server.
+Prerequisites: .NET 8 SDK and SQL Server (the default configuration uses SQL Server LocalDB, which ships with Visual Studio).
 
 ```bash
 git clone https://github.com/salmantawfeeq/TaskFlow.git
 cd TaskFlow
-# create the database (or apply the EF Core migrations)
-#   database/01_CreateDatabase.sql
-# set your SQL Server connection string in src/TaskFlow.Web/appsettings.json
 dotnet restore
 dotnet build
 dotnet test
 dotnet run --project src/TaskFlow.Web
 ```
+
+The connection string lives in `src/TaskFlow.Web/appsettings.json` (`DefaultConnection`). The database is created and seeded on first start; `database/01_CreateDatabase.sql` is an alternative script for creating the schema manually.
+
+Build and tests run automatically on every push through GitHub Actions.
 
 ## Author
 
