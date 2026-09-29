@@ -39,4 +39,12 @@
     <ProjectReference Include="..\TaskFlow.Application\TaskFlow.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="TaskFlow.Infrastructure.Persistence" />
+  </ItemGroup>
+
 </Project>
