@@ -6,18 +6,6 @@ using TaskItemEntity = TaskFlow.Domain.Entities.TaskItem;
 
 namespace TaskFlow.Infrastructure.Persistence;
 
-/// <summary>
-/// Application database context. Extends IdentityDbContext so ASP.NET
-/// Identity's user/role/claim tables live in the same database and same
-/// migration history as the domain tables, which is the standard and
-/// simplest approach for an ASP.NET Core MVC app using Identity.
-///
-/// IdentityDbContext&lt;ApplicationUser, IdentityRole, string&gt; gives us:
-///   - AspNetUsers (backed by our ApplicationUser subtype)
-///   - AspNetRoles, AspNetUserRoles, AspNetUserClaims, AspNetUserLogins,
-///     AspNetUserTokens, AspNetRoleClaims
-/// with a string (GUID) primary key, matching IdentityUser's default.
-/// </summary>
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -61,9 +49,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         // Must run first: sets up Identity's own table mappings.
         base.OnModelCreating(builder);
 
-        // Apply every IEntityTypeConfiguration<T> found in this assembly
-        // (one configuration class per entity - keeps OnModelCreating tidy
-        // and each entity's mapping co-located in its own file).
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
         // Rename default Identity tables to a consistent, explicit naming
