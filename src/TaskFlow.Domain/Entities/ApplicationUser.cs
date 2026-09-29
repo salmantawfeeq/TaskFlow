@@ -2,17 +2,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TaskFlow.Domain.Entities;
 
-/// <summary>
-/// Extends ASP.NET Identity's IdentityUser with the additional profile fields
-/// and relationships this application needs (department, team memberships,
-/// assigned tasks, owned projects, etc.).
-///
-/// NOTE: This is the one place the Domain layer intentionally references
-/// Microsoft.AspNetCore.Identity. Identity's user/role model is treated as
-/// part of the core domain here (a pragmatic, common exception to strict
-/// Clean Architecture in ASP.NET apps) rather than re-inventing user
-/// management abstractions from scratch.
-/// </summary>
 public class ApplicationUser : IdentityUser
 {
     public string FirstName { get; set; } = string.Empty;
