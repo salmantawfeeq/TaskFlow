@@ -3,12 +3,6 @@ using TaskFlow.Domain.Enums;
 
 namespace TaskFlow.Domain.Entities;
 
-/// <summary>
-/// The core work item in the system - equivalent to a Trello "card" or a
-/// Jira "issue". Belongs to a Project, can be assigned to multiple users,
-/// carries a status (drives the Kanban column), priority, due date, labels,
-/// checklist items, comments, attachments, and activity history.
-/// </summary>
 public class TaskItem : AuditableSoftDeleteEntity
 {
     public string Title { get; set; } = string.Empty;
