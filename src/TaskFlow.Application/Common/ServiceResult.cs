@@ -1,12 +1,5 @@
 namespace TaskFlow.Application.Common;
 
-/// <summary>
-/// Wraps the outcome of a service-layer operation that can fail for
-/// "expected" business reasons (validation, business rule violation)
-/// without resorting to throwing exceptions for control flow. Controllers
-/// check .Succeeded and surface .Errors to the user (e.g. via ModelState
-/// or TempData) instead of catching exceptions.
-/// </summary>
 public class ServiceResult
 {
     public bool Succeeded { get; protected set; }
