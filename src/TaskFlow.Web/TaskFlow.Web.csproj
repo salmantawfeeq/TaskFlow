@@ -9,25 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- UI-level packages: server-side charting data prep, session, anti-forgery already built into MVC -->
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <!--
-      Web references BOTH Application and Infrastructure:
-        - Application: the layer Web is meant to depend on for real work (interfaces, DTOs,
-          services consumed by controllers). This is the reference that matters conceptually.
-        - Infrastructure: needed ONLY so Program.cs (composition root) can call its
-          AddInfrastructure(...) DI registration extension method at startup.
-      Controllers/ViewModels must only use Application types. Infrastructure types (DbContext,
-      repository implementations, Identity classes) must never be referenced from Controllers -
-      that boundary is enforced by convention/code review, not by the compiler, since the
-      composition root unavoidably needs to see Infrastructure to wire it up.
-    -->
     <ProjectReference Include="..\TaskFlow.Application\TaskFlow.Application.csproj" />
     <ProjectReference Include="..\TaskFlow.Infrastructure\TaskFlow.Infrastructure.csproj" />
   </ItemGroup>
-
 
 </Project>
