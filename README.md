@@ -1,5 +1,7 @@
 # TaskFlow
 
+[![CI](https://github.com/salmantawfeeq/TaskFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/salmantawfeeq/TaskFlow/actions/workflows/ci.yml)
+
 A full-stack task and project management system built with **ASP.NET Core 8** and **SQL Server**, structured with Clean Architecture.
 
 ## Features
