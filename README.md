@@ -14,6 +14,12 @@ A full-stack task and project management system built with **ASP.NET Core 8** an
 - Activity, system and email logging (Serilog)
 - Admin area for users, categories, settings and logs
 
+## Screenshots
+
+![Admin panel](docs/screenshots/admin-panel.jpg)
+
+![Project details](docs/screenshots/project-details.jpg)
+
 ## Architecture
 
 ```
