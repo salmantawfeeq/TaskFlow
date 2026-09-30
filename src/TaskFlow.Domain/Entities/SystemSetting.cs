@@ -2,12 +2,6 @@ using TaskFlow.Domain.Common;
 
 namespace TaskFlow.Domain.Entities;
 
-/// <summary>
-/// A single admin-configurable system setting, stored as a key/value pair
-/// so new settings can be added from the Admin Panel without schema
-/// migrations. Examples: "Site.Name", "Uploads.MaxFileSizeMb",
-/// "Notifications.DueSoonThresholdHours".
-/// </summary>
 public class SystemSetting : BaseEntity
 {
     public string Key { get; set; } = string.Empty;
