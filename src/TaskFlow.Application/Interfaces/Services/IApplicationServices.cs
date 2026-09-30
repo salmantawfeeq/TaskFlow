@@ -27,12 +27,6 @@ public interface ITeamService
     Task<ServiceResult> AcceptInviteAsync(string token, string acceptingUserId);
 }
 
-/// <summary>
-/// Central place for creating notifications AND simulating the "email"
-/// that would accompany them - so any service (Task, Project, Team) that
-/// needs to notify a user calls one method instead of duplicating both
-/// concerns everywhere a notification-worthy event occurs.
-/// </summary>
 public interface INotificationService
 {
     Task<IReadOnlyList<NotificationDto>> GetForUserAsync(string userId, bool unreadOnly = false);
@@ -43,11 +37,6 @@ public interface INotificationService
 
     Task MarkAllAsReadAsync(string userId);
 
-    /// <summary>
-    /// Creates an in-app Notification row and a corresponding simulated
-    /// EmailLog row in one call, keeping the two concerns from drifting
-    /// out of sync with each other across the codebase.
-    /// </summary>
     Task NotifyAsync(
         string userId,
         Domain.Enums.NotificationType type,
@@ -57,11 +46,6 @@ public interface INotificationService
         int? relatedTaskId = null,
         int? relatedProjectId = null);
 
-    /// <summary>
-    /// Scans tasks with an approaching or passed due date and raises
-    /// TaskDueSoon / TaskOverdue notifications for their assignees.
-    /// Intended to be invoked by a scheduled background job.
-    /// </summary>
     Task CheckAndRaiseDueDateAlertsAsync();
 }
 

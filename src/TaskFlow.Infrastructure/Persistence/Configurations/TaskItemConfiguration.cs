@@ -41,9 +41,6 @@ public class TaskItemConfiguration : IEntityTypeConfiguration<TaskItemEntity>
         builder.Ignore(t => t.IsOverdue);
         builder.Ignore(t => t.ChecklistProgressPercentage);
 
-        // Indexes supporting the most common queries: Kanban board (by project+status),
-        // "My Tasks" (by assignee - via TaskAssignment, indexed separately),
-        // due-date alerts, and priority filters.
         builder.HasIndex(t => new { t.ProjectId, t.Status });
         builder.HasIndex(t => t.DueDate);
         builder.HasIndex(t => t.Priority);

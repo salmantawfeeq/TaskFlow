@@ -2,11 +2,6 @@ using TaskFlow.Domain.Common;
 
 namespace TaskFlow.Domain.Entities;
 
-/// <summary>
-/// A project category (e.g. "Software Development", "Marketing Campaign",
-/// "Internal Operations"). Managed from the Admin Panel's "Manage Categories"
-/// screen and used to classify/filter Projects.
-/// </summary>
 public class Category : BaseEntity
 {
     public string Name { get; set; } = string.Empty;

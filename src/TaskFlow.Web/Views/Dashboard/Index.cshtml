@@ -12,48 +12,6 @@
     </a>
 </div>
 
-<!-- Stat Cards -->
-<div class="row g-3 mb-4">
-    <div class="col-sm-6 col-xl-3">
-        <div class="stat-card">
-            <div class="stat-icon" style="background:#4f46e5;"><i class="fa-solid fa-folder-open"></i></div>
-            <div>
-                <div class="stat-value">@stats.ActiveProjects</div>
-                <div class="stat-label">Active Projects</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-xl-3">
-        <div class="stat-card">
-            <div class="stat-icon" style="background:#10b981;"><i class="fa-solid fa-list-check"></i></div>
-            <div>
-                <div class="stat-value">@stats.CompletedTasks / @stats.TotalTasks</div>
-                <div class="stat-label">Tasks Completed</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-xl-3">
-        <div class="stat-card">
-            <div class="stat-icon" style="background:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i></div>
-            <div>
-                <div class="stat-value">@stats.OverdueTasks</div>
-                <div class="stat-label">Overdue Tasks</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-xl-3">
-        <div class="stat-card">
-            <div class="stat-icon" style="background:#f59e0b;"><i class="fa-solid fa-user-check"></i></div>
-            <div>
-                <div class="stat-value">@stats.TasksAssignedToMe</div>
-                <div class="stat-label">Assigned To Me</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row g-3 mb-4">
-    <!-- Task Status Chart -->
     <div class="col-lg-4">
         <div class="card h-100">
             <div class="card-body">
@@ -63,17 +21,6 @@
         </div>
     </div>
 
-    <!-- Priority Chart -->
-    <div class="col-lg-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <h6 class="mb-3">Tasks by Priority</h6>
-                <canvas id="taskPriorityChart" height="220"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Completion Trend -->
     <div class="col-lg-4">
         <div class="card h-100">
             <div class="card-body">
@@ -85,38 +32,6 @@
 </div>
 
 <div class="row g-3">
-    <!-- Project Progress -->
-    <div class="col-lg-7">
-        <div class="card h-100">
-            <div class="card-body">
-                <h6 class="mb-3">Project Progress</h6>
-                @if (!projectProgress.Any())
-                {
-                    <p class="text-muted small mb-0">No active projects yet.</p>
-                }
-                else
-                {
-                    foreach (var p in projectProgress)
-                    {
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between small mb-1">
-                                <span>
-                                    <span class="rounded-circle d-inline-block me-1" style="width:8px;height:8px;background:@p.ColorHex"></span>
-                                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@p.ProjectId" class="text-decoration-none">@p.ProjectName</a>
-                                </span>
-                                <span class="text-muted">@p.CompletedTasks/@p.TotalTasks tasks</span>
-                            </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar" role="progressbar" style="width: @p.ProgressPercentage%; background-color: @p.ColorHex;"></div>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Activity -->
     <div class="col-lg-5">
         <div class="card h-100">
             <div class="card-body">

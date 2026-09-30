@@ -4,11 +4,6 @@ using TaskFlow.Application.Interfaces.Repositories;
 
 namespace TaskFlow.Infrastructure.Repositories;
 
-/// <summary>
-/// EF Core-backed implementation of <see cref="IGenericRepository{T}"/>.
-/// Specific repositories inherit from this to get CRUD operations for free
-/// and add only the queries unique to their entity.
-/// </summary>
 public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
     protected readonly ApplicationDbContext Context;

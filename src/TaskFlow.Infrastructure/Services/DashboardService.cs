@@ -17,11 +17,6 @@ public class DashboardService : IDashboardService
         _mapper = mapper;
     }
 
-    /// <summary>
-    /// Managers/Admins see stats across all projects; Employees see stats
-    /// scoped to projects they are a member of. Centralizing this scoping
-    /// rule here means every dashboard query applies it consistently.
-    /// </summary>
     private IQueryable<Domain.Entities.Project> ScopedProjects(string userId, bool isManagerOrAdmin)
     {
         var query = _uow.Projects.Query();

@@ -101,11 +101,6 @@ public class ProjectService : IProjectService
             OwnerId = dto.OwnerId
         };
 
-        // Owner is automatically a project-manager-level member; additional
-        // requested members are added as regular (non-manager) members.
-        // Adding them to the in-memory Members collection before the first
-        // SaveChangesAsync lets EF Core insert Project + ProjectMembers
-        // together as one graph, instead of two separate round trips.
         project.Members.Add(new ProjectMember { UserId = dto.OwnerId, IsProjectManager = true });
 
         foreach (var userId in dto.MemberUserIds.Where(id => id != dto.OwnerId).Distinct())

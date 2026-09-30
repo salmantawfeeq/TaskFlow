@@ -1,10 +1,5 @@
 namespace TaskFlow.Application.Common;
 
-/// <summary>
-/// Generic wrapper for any paginated list result, so every service method
-/// that returns a page of data (Projects, Tasks, Users, Reports...) shares
-/// the same shape instead of each controller reinventing paging metadata.
-/// </summary>
 public class PagedResult<T>
 {
     public List<T> Items { get; set; } = new();

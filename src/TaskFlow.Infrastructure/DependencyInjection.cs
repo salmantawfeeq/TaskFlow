@@ -16,15 +16,6 @@ using TaskFlow.Infrastructure.Services;
 
 namespace TaskFlow.Infrastructure;
 
-/// <summary>
-/// Single entry point for wiring up every Infrastructure-layer dependency.
-/// Called once from Program.cs (the composition root) via
-/// builder.Services.AddInfrastructure(builder.Configuration, uploadsPath).
-/// Keeping all registrations here (rather than scattered across
-/// Program.cs) is what makes the Infrastructure layer swappable: a test
-/// project or a different hosting model could call a different
-/// registration method entirely.
-/// </summary>
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
@@ -55,9 +46,6 @@ public static class DependencyInjection
 
                 options.User.RequireUniqueEmail = true;
 
-                // Email confirmation is enforced at sign-in (see AuthService/
-                // SignInManager options below) to satisfy the "Email
-                // Confirmation (simulation)" requirement.
                 options.SignIn.RequireConfirmedEmail = true;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -84,10 +72,6 @@ public static class DependencyInjection
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IEmailService, EmailService>();
 
-        // IAttachmentService needs the physical uploads root path, which is
-        // only known by the Web layer (wwwroot location) - passed in here
-        // as a plain string rather than having Infrastructure guess at a
-        // hosting environment path itself.
         services.AddScoped<IAttachmentService>(sp =>
             new AttachmentService(
                 sp.GetRequiredService<IUnitOfWork>(),

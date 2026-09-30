@@ -118,10 +118,6 @@ public class AuthService : IAuthService
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null)
         {
-            // Deliberately return success-shaped failure without revealing
-            // whether the email exists, to avoid user enumeration - the
-            // caller (controller) should show a generic "check your email"
-            // message regardless of this result.
             return ServiceResult<string>.Failure("If that email exists, a reset link has been generated.");
         }
 

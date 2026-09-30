@@ -8,11 +8,6 @@
 (function () {
     'use strict';
 
-    // ---- CSRF token helper for AJAX POST requests ----
-    // Program.cs configures AddAntiforgery with HeaderName = "X-CSRF-TOKEN",
-    // and _AntiForgeryTokenMeta.cshtml renders the token as a <meta> tag;
-    // every fetch() POST in this file (and any page-specific script) should
-    // include this header so [ValidateAntiForgeryToken] actions succeed.
     window.getCsrfToken = function () {
         var meta = document.querySelector('meta[name="csrf-token"]');
         return meta ? meta.getAttribute('content') : '';

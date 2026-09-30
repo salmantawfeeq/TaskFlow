@@ -8,17 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- FluentValidation: keeps validation rules out of controllers/entities (SOLID - Single Responsibility) -->
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
-    <!-- AutoMapper: Entity <-> DTO <-> ViewModel mapping without hand-written boilerplate -->
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <!-- Needed for IHttpContextAccessor style abstractions used by some application services (no ASP.NET Core dependency) -->
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- IFormFile (IAttachmentService) lives in the ASP.NET Core shared framework -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

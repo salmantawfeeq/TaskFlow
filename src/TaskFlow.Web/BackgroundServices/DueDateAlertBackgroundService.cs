@@ -2,12 +2,6 @@ using TaskFlow.Application.Interfaces.Services;
 
 namespace TaskFlow.Web.BackgroundServices;
 
-/// <summary>
-/// Periodically invokes INotificationService.CheckAndRaiseDueDateAlertsAsync
-/// to scan for tasks due soon or overdue and notify their assignees.
-/// Implements the "Task Deadline Alerts" requirement without needing an
-/// external scheduler (e.g. Hangfire/Quartz) for a project of this scope.
-/// </summary>
 public class DueDateAlertBackgroundService : BackgroundService
 {
     private readonly IServiceProvider _serviceProvider;

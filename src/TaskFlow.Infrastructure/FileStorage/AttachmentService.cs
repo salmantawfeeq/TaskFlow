@@ -10,19 +10,6 @@ using TaskFlow.Domain.Enums;
 
 namespace TaskFlow.Infrastructure.FileStorage;
 
-/// <summary>
-/// Handles secure file uploads to local disk storage under wwwroot/uploads.
-/// Security measures applied:
-///   - Extension whitelist (configured via SystemSettings, not hard-coded,
-///     so admins can adjust it without a redeploy).
-///   - File size limit (also admin-configurable).
-///   - Filenames are never trusted from the client: a new GUID-based
-///     filename is generated for the physical file on disk, while the
-///     user's original filename is preserved only as display metadata.
-///   - Files are stored outside any web-executable path pattern and served
-///     back only through a controller action (not directly browsable),
-///     which additionally checks the requesting user's authorization.
-/// </summary>
 public class AttachmentService : IAttachmentService
 {
     private readonly IUnitOfWork _uow;
@@ -70,9 +57,6 @@ public class AttachmentService : IAttachmentService
             return ServiceResult<AttachmentDto>.Failure($"File type \"{extension}\" is not allowed.");
         }
 
-        // Never trust the client-supplied filename for the physical path -
-        // generate a random name to prevent path traversal and filename
-        // collision attacks. The original name is kept only for display.
         var safeFileName = $"{Guid.NewGuid()}{extension}";
         var subFolder = relatedTo == EntityRelationType.Project ? "projects" : "tasks";
         var targetDirectory = Path.Combine(_uploadsRootPath, subFolder, relatedId.ToString());
@@ -133,9 +117,6 @@ public class AttachmentService : IAttachmentService
         var physicalPath = Path.Combine(_uploadsRootPath, "..", attachment.FilePath);
         var normalizedPath = Path.GetFullPath(physicalPath);
 
-        // Defense-in-depth: confirm the resolved path is actually inside the
-        // uploads root before deleting, guarding against any FilePath value
-        // that could have escaped the intended directory.
         var uploadsRootFull = Path.GetFullPath(Path.Combine(_uploadsRootPath, ".."));
         if (normalizedPath.StartsWith(uploadsRootFull, StringComparison.OrdinalIgnoreCase) && File.Exists(normalizedPath))
         {

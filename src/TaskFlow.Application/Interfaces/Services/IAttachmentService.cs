@@ -5,12 +5,6 @@ using TaskFlow.Domain.Enums;
 
 namespace TaskFlow.Application.Interfaces.Services;
 
-/// <summary>
-/// Handles secure file upload/storage for task and project attachments.
-/// Takes IFormFile (an ASP.NET Core web abstraction) - a deliberate,
-/// narrow exception, since representing "an uploaded file" any other way
-/// in the Application layer would just reinvent the same shape.
-/// </summary>
 public interface IAttachmentService
 {
     Task<ServiceResult<AttachmentDto>> UploadAsync(

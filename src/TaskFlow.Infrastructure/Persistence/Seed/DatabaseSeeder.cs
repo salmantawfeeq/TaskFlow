@@ -6,13 +6,6 @@ using TaskItemEntity = TaskFlow.Domain.Entities.TaskItem;
 
 namespace TaskFlow.Infrastructure.Persistence.Seed;
 
-/// <summary>
-/// Seeds the database with roles, demo users, and sample business data so
-/// the application is immediately explorable after first run instead of
-/// starting completely empty. Called once from Program.cs at startup
-/// (idempotent: every step checks "does this already exist?" before
-/// inserting, so it's safe to run on every application boot).
-/// </summary>
 public static class DatabaseSeeder
 {
     public static async Task SeedAsync(

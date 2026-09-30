@@ -2,11 +2,6 @@ using TaskFlow.Domain.Common;
 
 namespace TaskFlow.Domain.Entities;
 
-/// <summary>
-/// An organizational department (e.g. "Engineering", "Marketing").
-/// Users belong to at most one Department; a Department can contain
-/// multiple Teams.
-/// </summary>
 public class Department : BaseEntity
 {
     public string Name { get; set; } = string.Empty;

@@ -2,11 +2,6 @@ using TaskFlow.Domain.Common;
 
 namespace TaskFlow.Domain.Entities;
 
-/// <summary>
-/// Explicit join entity between ApplicationUser and Team (rather than an
-/// implicit EF many-to-many) because we need to store extra data about the
-/// membership itself: when they joined and whether they're a lead.
-/// </summary>
 public class TeamMember : BaseEntity
 {
     public int TeamId { get; set; }
