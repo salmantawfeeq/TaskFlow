@@ -22,9 +22,6 @@ public class SystemLogConfiguration : IEntityTypeConfiguration<SystemLog>
         builder.Property(l => l.Source)
             .HasMaxLength(200);
 
-        // No FK to Users - UserId here is a loosely-coupled reference for
-        // display purposes only, since a system log must be writable even
-        // when there's no authenticated user (e.g. background job errors).
         builder.HasIndex(l => l.Level);
         builder.HasIndex(l => l.CreatedAt);
     }
