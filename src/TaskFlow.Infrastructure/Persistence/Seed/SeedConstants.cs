@@ -1,11 +1,5 @@
 namespace TaskFlow.Infrastructure.Persistence.Seed;
 
-/// <summary>
-/// Fixed, hard-coded identifiers used by <see cref="DatabaseSeeder"/> so that
-/// re-running the seeder (e.g. after a database reset) always produces the
-/// exact same Ids/GUIDs. Using random Guid.NewGuid() in seed data would make
-/// seeding non-idempotent and break demo data references between runs.
-/// </summary>
 public static class SeedConstants
 {
     // ---- Role names (must match Domain.Enums.SystemRole names exactly) ----
