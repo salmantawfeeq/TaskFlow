@@ -9,11 +9,6 @@ using TaskItemEntity = TaskFlow.Domain.Entities.TaskItem;
 
 namespace TaskFlow.Application.Mappings;
 
-/// <summary>
-/// Central AutoMapper configuration. Kept as one profile for a project this
-/// size; if the number of mappings grows significantly, split by feature
-/// area (ProjectMappingProfile, TaskMappingProfile, ...).
-/// </summary>
 public class MappingProfile : Profile
 {
     public MappingProfile()
