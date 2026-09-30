@@ -1,10 +1,5 @@
 namespace TaskFlow.Domain.Common;
 
-/// <summary>
-/// Base class for all domain entities that have an integer identity key.
-/// Centralizes audit fields (CreatedAt/UpdatedAt) so every entity gets them
-/// automatically without repeating the same properties everywhere.
-/// </summary>
 public abstract class BaseEntity
 {
     public int Id { get; set; }
