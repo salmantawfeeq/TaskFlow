@@ -237,11 +237,6 @@ public class ReportService : IReportService
         return stream.ToArray();
     }
 
-    /// <summary>
-    /// Builds a simple string[][] table (header row + data rows) shared by
-    /// both the PDF and Excel exporters, so the two output formats always
-    /// present identical data without duplicating the query/shaping logic.
-    /// </summary>
     private async Task<List<string[]>> BuildReportRowsAsync(string reportType, ReportFilterDto filter)
     {
         var rows = new List<string[]>();
