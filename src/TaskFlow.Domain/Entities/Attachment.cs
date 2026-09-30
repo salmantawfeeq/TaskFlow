@@ -3,13 +3,6 @@ using TaskFlow.Domain.Enums;
 
 namespace TaskFlow.Domain.Entities;
 
-/// <summary>
-/// A file uploaded and attached to either a Project or a TaskItem.
-/// Modeled with two nullable FKs (rather than true polymorphism) to keep
-/// the relational schema simple and enforce referential integrity via
-/// normal foreign keys; exactly one of ProjectId/TaskItemId should be set
-/// (enforced in the Application layer's validation, not the database).
-/// </summary>
 public class Attachment : BaseEntity
 {
     public string FileName { get; set; } = string.Empty;
