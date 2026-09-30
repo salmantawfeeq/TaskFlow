@@ -8,12 +8,6 @@ using TaskFlow.Web.ViewModels;
 
 namespace TaskFlow.Web.Controllers;
 
-/// <summary>
-/// Handles all authentication and account-management flows. Delegates all
-/// actual Identity work to IAuthService (Application layer contract) -
-/// this controller only translates between ViewModels and DTOs and
-/// decides what view/redirect to show.
-/// </summary>
 public class AccountController : Controller
 {
     private readonly IAuthService _authService;
@@ -54,10 +48,6 @@ public class AccountController : Controller
             return View(model);
         }
 
-        // Simulate the email confirmation flow: generate a token and hand
-        // the user straight to the confirmation link (in a production
-        // deployment this token would only ever be emailed, never
-        // displayed - see IEmailService/EmailLog for the simulated send).
         var tokenResult = await _authService.GenerateEmailConfirmationTokenAsync(result.Data!);
         if (tokenResult.Succeeded)
         {
