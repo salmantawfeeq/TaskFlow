@@ -1,12 +1,5 @@
 namespace TaskFlow.Application.Interfaces.Repositories;
 
-/// <summary>
-/// Coordinates multiple repository operations under a single database
-/// transaction/SaveChanges call. Services inject IUnitOfWork (not
-/// individual repositories + a DbContext) so business operations that
-/// touch several tables (e.g. "create task + write activity log + create
-/// notification") commit together atomically.
-/// </summary>
 public interface IUnitOfWork : IDisposable
 {
     IProjectRepository Projects { get; }
