@@ -3,11 +3,6 @@ using TaskFlow.Application.Interfaces.Repositories;
 
 namespace TaskFlow.Infrastructure.Repositories;
 
-/// <summary>
-/// EF Core implementation of IUnitOfWork. Lazily constructs each repository
-/// on first access, sharing the same DbContext instance (and therefore the
-/// same change-tracker and transaction) across all of them.
-/// </summary>
 public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
