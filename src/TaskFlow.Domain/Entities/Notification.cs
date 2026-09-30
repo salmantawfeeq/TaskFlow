@@ -3,13 +3,6 @@ using TaskFlow.Domain.Enums;
 
 namespace TaskFlow.Domain.Entities;
 
-/// <summary>
-/// An in-app notification delivered to a specific user (task assigned, due
-/// date approaching, comment mention, etc). Also used as the record of a
-/// "simulated" email notification (see EmailLog for the simulated send
-/// itself) so the in-app bell icon and email simulation share one source
-/// of truth for what happened and why.
-/// </summary>
 public class Notification : BaseEntity
 {
     public string UserId { get; set; } = string.Empty;
