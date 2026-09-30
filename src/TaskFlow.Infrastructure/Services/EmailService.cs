@@ -14,10 +14,6 @@ public class EmailService : IEmailService
 
     public async Task SendAsync(string toEmail, string subject, string body, string emailType)
     {
-        // No real SMTP call - this is a deliberate simulation per spec.
-        // In a production deployment, this method would be swapped for a
-        // real implementation using SendGrid/SMTP/etc, with the interface
-        // (IEmailService) staying unchanged for all callers.
         _context.EmailLogs.Add(new EmailLog
         {
             ToEmail = toEmail,
