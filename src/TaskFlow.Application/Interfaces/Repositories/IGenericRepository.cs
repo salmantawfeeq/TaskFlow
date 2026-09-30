@@ -2,12 +2,6 @@ using System.Linq.Expressions;
 
 namespace TaskFlow.Application.Interfaces.Repositories;
 
-/// <summary>
-/// Generic repository contract shared by every entity-specific repository.
-/// Keeps common CRUD/query operations in one place (DRY) while specific
-/// repositories (IProjectRepository, ITaskRepository, ...) add only the
-/// queries unique to that entity.
-/// </summary>
 public interface IGenericRepository<T> where T : class
 {
     Task<T?> GetByIdAsync(int id);
@@ -32,10 +26,5 @@ public interface IGenericRepository<T> where T : class
 
     void RemoveRange(IEnumerable<T> entities);
 
-    /// <summary>
-    /// Returns an IQueryable for building complex, composable queries
-    /// (paging, includes, projections) in the service layer without
-    /// leaking EF Core's DbContext itself outside Infrastructure.
-    /// </summary>
     IQueryable<T> Query();
 }
