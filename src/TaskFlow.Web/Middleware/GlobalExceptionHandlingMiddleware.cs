@@ -5,13 +5,6 @@ using TaskFlow.Infrastructure.Persistence;
 
 namespace TaskFlow.Web.Middleware;
 
-/// <summary>
-/// Catches any exception that escapes controller action filters, logs it
-/// (both via Serilog and into the SystemLogs table so it's visible in the
-/// Admin Panel's Logs screen), and returns an appropriate response:
-/// a JSON error payload for AJAX/API-style requests, or a redirect to a
-/// friendly error view for normal page requests.
-/// </summary>
 public class GlobalExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;
@@ -39,9 +32,6 @@ public class GlobalExceptionHandlingMiddleware
     {
         _logger.LogError(exception, "Unhandled exception occurred processing {Path}", context.Request.Path);
 
-        // Best-effort write to SystemLogs - if the database itself is the
-        // problem, this write may also fail, so it's wrapped defensively
-        // and never allowed to mask the original exception's response.
         try
         {
             using var scope = context.RequestServices.CreateScope();
