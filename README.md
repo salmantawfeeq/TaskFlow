@@ -54,6 +54,18 @@ dotnet run --project src/TaskFlow.Web
 
 The connection string lives in `src/TaskFlow.Web/appsettings.json` (`DefaultConnection`). The database is created and seeded on first start; `database/01_CreateDatabase.sql` is an alternative script for creating the schema manually.
 
+### Demo accounts
+
+The seeder creates a set of demo users so every role can be explored straight away. All of them share the password `Demo@12345` (local/demo use only).
+
+| Role | Email |
+| --- | --- |
+| Admin | `admin@taskflow.demo` |
+| Manager | `manager1@taskflow.demo` |
+| Employee | `employee1@taskflow.demo` |
+
+The data model is documented in the [ER diagram](docs/ER-Diagram.md).
+
 Build and tests run automatically on every push through GitHub Actions.
 
 ## Author
